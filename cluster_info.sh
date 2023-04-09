@@ -10,7 +10,7 @@ num_cores=$(pbsnodes -a | awk '/np =/{count[$3]++} END{for (i in count) print co
 num_memory=$(pbsnodes -a | awk '/physmem =/{count[$3]++} END{for (i in count) print count[i], i/1024/1024 " GB"}' | sort -n | uniq)
 
 # Calculate the average amount of memory per core
-avg_memory_per_core=$(pbsnodes -a | awk '/physmem =/{total_mem+=$3; total_cores+=$10} END{print total_mem/total_cores/1024/1024 " GB/core"}')
+avg_memory_per_core=$(pbsnodes -a | awk '/physmem =/ { if ($10 > 0) { total_mem+=$3; total_cores+=$10 }} END { print total_mem/total_cores/1024/1024 " GB/core" }')
 
 # Count the number of GPUs in the cluster
 num_gpus=$(pbsnodes -a | awk '/gpus =/{total_gpus+=$3} END{print total_gpus}')

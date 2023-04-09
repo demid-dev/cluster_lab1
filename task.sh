@@ -11,4 +11,4 @@ xmax=$(echo $input | awk '{print $2}')
 result=$(./a.out $xmin $xmax)
 
 # Print the result to the console
-echo "The result is: $result" >output.txt
+echo $result >output.txt

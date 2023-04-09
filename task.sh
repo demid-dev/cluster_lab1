@@ -1,14 +1,24 @@
 #!/bin/bash
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=00:02:00
+#PBS -N semenchenko_integrals
 
-# Read the input from a file
-input=$(cat input.txt)
+cd $PBS_O_WORKDIR
 
-# Extract the two input values
-xmin=$(echo $input | awk '{print $1}')
-xmax=$(echo $input | awk '{print $2}')
+input_file="input.txt"
+output_file="output.txt"
 
-# Call the integral function
-result=$(./a.out $xmin $xmax)
+# Check if input file exists
+if [ ! -f "$input_file" ]; then
+    echo "Input file not found"
+    exit 1
+fi
 
-# Print the result to the console
-echo $result >output.txt
+while read -r line; do
+    # Extract xmin and xmax from line
+    xmin=$(echo "$line" | awk '{print $1}')
+    xmax=$(echo "$line" | awk '{print $2}')
+    # Call integral function and append result to output file
+    ./a.out "$xmin" "$xmax" >>"$output_file"
+
+done <"$input_file"

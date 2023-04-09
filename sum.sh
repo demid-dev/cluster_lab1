@@ -1,14 +1,14 @@
 #!/bin/bash
 #PBS -l nodes=1:ppn=1
-#PBS -l walltime=00:02:00
-#PBS -N semenchenko_grandtotal
+#PBS -l walltime=00:05:00
+#PBS -N Ivanov_GrandTotal
 
-cd $PBS_O_WORKDIR
+#cd $PBS_O_WORKDIR
 
 output_dir="result"
-output_file="$result.txt"
+output_file="result.txt"
 
 # Concatenate all output files and calculate sum and average
-cat ${output_dir}/solvOut_*.out | awk '/RESULT:/ { sum += $2 } END { printf "Total: %f\nAverage: %f\n", sum, sum/NR }' >"$output_file"
+awk '/RESULT:/ { sum += $2; count += 1 } END { printf "Total: %f\nAverage: %f\n", sum, sum/count }' ${output_dir}/solvOut_*.out >"$output_file"
 
 echo "Done."

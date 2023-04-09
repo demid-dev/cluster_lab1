@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -l nodes=1:ppn=1
-#PBS -l walltime=00:05:00
+#PBS -l walltime=00:02:00
 #PBS -N integral_array
 #PBS -t 1-300
 
@@ -23,8 +23,4 @@ xmax=$(echo "$line" | awk '{print $2}')
 output_file="${output_dir}/solvOut_${PBS_ARRAYID}.out"
 
 # Call integral function and write result to output file
-echo "Calculating integral from $xmin to $xmax ..."
-echo "" >"$output_file" # create empty file
-./a.out $xmin $xmax >>"$output_file"
-
-echo "Task $PBS_ARRAYID complete."
+./a.out $xmin $xmax >"$output_file"

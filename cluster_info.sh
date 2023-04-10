@@ -17,5 +17,5 @@ mem_per_proc=$(echo $tot_mem_gb $n_p | awk '{print $1/$2}')
 echo "The average amount of memory per proc is $mem_per_proc GB"
 
 # Count the number of GPUs in the cluster
-num_gpus=$(pbsnodes -a | awk '/gpus =/{count++} END{print count}')
+num_gpus=$(pbsnodes -a | awk '/gpus =/{sum += $3} END {print sum}')
 echo "There are $num_gpus GPUs on the cluster"
